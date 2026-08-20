@@ -1,0 +1,3 @@
+"use client";
+import { FlowScene } from "./three/WebGLScene";
+export default function TransformationFlow3D(){return <section className="transformation-3d section-shell" aria-labelledby="transformation-title"><h2 id="transformation-title" className="sr-only">De los datos al conocimiento</h2><div className="flow-canvas-wrap"><FlowScene/></div><div className="flow-copy"><article><h3>Datos dispersos</h3><p>Información aislada y difícil de aprovechar.</p></article><article><h3>Automatización</h3><p>Procesos que ordenan y conectan los datos.</p></article><article><h3>Análisis de información</h3><p>Patrones y hallazgos que explican qué ocurre.</p></article><article><h3>Conocimiento</h3><p>Claridad para comprender y tomar decisiones.</p></article></div></section>}
