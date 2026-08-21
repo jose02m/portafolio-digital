@@ -7,7 +7,7 @@ import DynamicCursor from "../components/DynamicCursor";
 import { experience, formation, services, tools } from "../data/portfolio";
 import { FaChartColumn, FaFileExcel } from "react-icons/fa6";
 import { MdApi } from "react-icons/md";
-import { SiFigma, SiLaravel, SiLooker, SiMake, SiNotion, SiPostgresql, SiPython, SiReact, SiZapier } from "react-icons/si";
+import { SiFastapi, SiFigma, SiLaravel, SiLooker, SiMake, SiNotion, SiPostgresql, SiPydantic, SiPytest, SiPython, SiReact, SiSqlalchemy, SiSqlite, SiSwagger, SiTypescript, SiVercel, SiVite, SiZapier } from "react-icons/si";
 
 const toolIcons = {
   "Power BI": FaChartColumn,
@@ -22,6 +22,15 @@ const toolIcons = {
   SQL: SiPostgresql,
   Figma: SiFigma,
   Notion: SiNotion,
+  TypeScript: SiTypescript,
+  Vite: SiVite,
+  FastAPI: SiFastapi,
+  SQLAlchemy: SiSqlalchemy,
+  SQLite: SiSqlite,
+  Pydantic: SiPydantic,
+  Pytest: SiPytest,
+  Swagger: SiSwagger,
+  Vercel: SiVercel,
 } as const;
 
 export default function Home() {
