@@ -53,8 +53,113 @@
   line-height: 1.5;
 }
 
+.project-image-visual img {
+  object-fit: cover;
+  object-position: left center;
+}
+
+.project-actions a.demo-action {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 0;
+  padding: 0 12px;
+  border: 1px solid rgba(52, 120, 246, 0.32);
+  border-radius: 10px;
+  background: white;
+  color: var(--blue-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.project-actions a.demo-action:hover {
+  border-color: var(--blue);
+  background: #e8f2ff;
+  transform: translateY(-1px);
+}
+
+.project-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.project-images figure {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(52, 120, 246, 0.12);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 10px 28px rgba(42, 85, 150, 0.08);
+}
+
+.project-images figure.primary {
+  grid-column: 1 / -1;
+  aspect-ratio: 2.05 / 1;
+}
+
+.project-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.modal-project-links .modal-demo-action {
+  margin-top: 0;
+  text-decoration: none;
+}
+
+.modal-repository-action {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 138, 91, 0.45);
+  border-radius: 11px;
+  background: rgba(255, 138, 91, 0.12);
+  color: #a94723;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(255, 138, 91, 0.1);
+}
+
+.modal-repository-action:hover {
+  transform: translateY(-2px);
+  border-color: var(--coral);
+  background: var(--coral);
+  color: #172848;
+}
+
 @media (max-width: 640px) {
   .project-features > div {
     grid-template-columns: 1fr;
+  }
+
+  .project-images {
+    grid-template-columns: 1fr;
+  }
+
+  .project-images figure.primary {
+    grid-column: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-actions a.demo-action,
+  .modal-project-links > * {
+    width: 100%;
   }
 }
