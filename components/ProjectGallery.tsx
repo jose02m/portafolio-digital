@@ -51,7 +51,7 @@ export default function ProjectGallery() {
 }
 
 function ProjectModal({ project, close, showDemo }: { project: Project; close: () => void; showDemo: () => void }) {
-  return <div className="modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) close(); }}><div className={`project-modal${project.featured ? " ecosystem-modal" : ""}`} role="dialog" aria-modal="true" aria-labelledby="project-modal-title"><button className="modal-close" type="button" onClick={close} aria-label="Cerrar"><FaXmark/></button><p className="project-category">{project.disciplines}</p><h2 id="project-modal-title">{project.title}</h2><p className="modal-context">{project.context}</p>{isFeaturedProject(project) ? <FeaturedCase project={project} showDemo={showDemo}/> : <StandardCase project={project as DetailedProject} showDemo={showDemo}/>}</div></div>;
+  return <div className="modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) close(); }}><div className={`project-modal${project.featured ? " ecosystem-modal" : ""}`} role="dialog" aria-modal="true" aria-labelledby="project-modal-title"><div className="modal-close-bar"><button className="modal-close" type="button" onClick={close} aria-label="Cerrar"><FaXmark/></button></div><p className="project-category">{project.disciplines}</p><h2 id="project-modal-title">{project.title}</h2><p className="modal-context">{project.context}</p>{isFeaturedProject(project) ? <FeaturedCase project={project} showDemo={showDemo}/> : <StandardCase project={project as DetailedProject} showDemo={showDemo}/>}</div></div>;
 }
 
 function FeaturedCase({ project, showDemo }: { project: FeaturedProject; showDemo: () => void }) {

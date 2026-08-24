@@ -4,6 +4,8 @@ import TransformationFlow3D from "../components/TransformationFlow3D";
 import SiteHeader from "../components/SiteHeader";
 import MotionController from "../components/MotionController";
 import DynamicCursor from "../components/DynamicCursor";
+import ContactModal from "../components/ContactModal";
+import ContactTrigger from "../components/ContactTrigger";
 import { experience, formation, services, tools } from "../data/portfolio";
 import { FaChartColumn, FaFileExcel } from "react-icons/fa6";
 import { MdApi } from "react-icons/md";
@@ -39,6 +41,7 @@ export default function Home() {
       <SiteHeader />
       <MotionController />
       <DynamicCursor />
+      <ContactModal />
 
       <EcosystemHero />
 
@@ -60,8 +63,8 @@ export default function Home() {
 
       <section className="tools section-pad section-shell" aria-labelledby="tools-title"><p className="eyebrow">Herramientas</p><h2 id="tools-title">Tecnologías que convierto en resultados.</h2><div className="tool-grid">{tools.map((tool,index) => {const Icon=toolIcons[tool.name as keyof typeof toolIcons];return <div className="tool-card" key={tool.name} tabIndex={0} aria-label={`Herramienta: ${tool.name}`} data-reveal="up" style={{"--tool-color":tool.color,"--reveal-delay":`${(index%6)*45}ms`} as React.CSSProperties}><span className="tool-logo"><Icon aria-hidden="true"/></span><span>{tool.name}</span></div>})}</div></section>
 
-      <section id="contacto" className="contact section-shell"><div><p className="eyebrow light">Próximo paso</p><h2>¿Tienes un proyecto en mente?</h2><p>Conversemos sobre cómo transformar datos y procesos en resultados reales.</p></div><a className="button button-coral" href="mailto:tuemail@dominio.com">Conversemos <span>→</span></a></section>
-      <footer className="footer section-shell"><span className="brand"><span className="brand-mark">JC</span> José Carlos Martínez Blanco</span><span>Tecnología al servicio de las personas.</span><div><a href="mailto:tuemail@dominio.com">Correo</a><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></div></footer>
+      <section id="contacto" className="contact section-shell"><div><p className="eyebrow light">Próximo paso</p><h2>¿Tienes un proyecto en mente?</h2><p>Conversemos sobre cómo transformar datos y procesos en resultados reales.</p></div><ContactTrigger className="button button-coral">Conversemos <span>→</span></ContactTrigger></section>
+      <footer className="footer section-shell"><span className="brand"><span className="brand-mark">JC</span> José Carlos Martínez Blanco</span><span>Tecnología al servicio de las personas.</span><div><ContactTrigger className="footer-contact-trigger">Contacto</ContactTrigger><a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a></div></footer>
     </main>
   );
 }
