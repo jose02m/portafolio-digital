@@ -38,7 +38,7 @@ npm run build
 1. Importa este repositorio desde Vercel.
 2. Mantén la configuración detectada para Next.js.
 3. Usa `npm run build` como comando de compilación.
-4. Configura estas variables de entorno del lado del servidor:
+4. Configura estas variables de entorno del lado del servidor para los entornos Preview y Production:
    - `RESEND_API_KEY`: clave privada de Resend.
    - `CONTACT_RECIPIENT`: correo que recibirá los mensajes.
    - `CONTACT_FROM_EMAIL`: remitente autorizado por Resend, por ejemplo `Portafolio José Carlos <onboarding@resend.dev>`.
