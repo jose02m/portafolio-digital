@@ -270,6 +270,62 @@
 .contact-submit:disabled { cursor: wait; opacity: 0.66; }
 .footer-contact-trigger { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
 
+
+.contact-modal-sent {
+  width: 92px;
+  height: 92px;
+  max-height: 92px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(145deg, #3478f6, #245fcf);
+  box-shadow: 0 24px 60px rgba(36, 95, 207, 0.34);
+  animation: contact-modal-collapse 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.contact-sent-visual { display: grid; width: 100%; height: 100%; place-items: center; }
+.contact-sent-envelope {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  animation: contact-envelope-send 0.72s 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.contact-sent-envelope svg { width: 30px; height: 30px; }
+
+.contact-trigger-content { display: inline-flex; align-items: center; justify-content: center; gap: 8px; animation: contact-trigger-in 0.32s ease both; }
+.contact-trigger-sent {
+  border-color: rgba(35, 166, 132, 0.34) !important;
+  background: rgba(35, 166, 132, 0.12) !important;
+  color: #136d57 !important;
+  box-shadow: 0 8px 22px rgba(35, 166, 132, 0.14);
+}
+
+@keyframes contact-modal-collapse {
+  from { width: min(720px, calc(100vw - 32px)); height: min(620px, 82vh); border-radius: 24px; opacity: 0.92; }
+  to { width: 92px; height: 92px; border-radius: 28px; opacity: 1; }
+}
+
+@keyframes contact-envelope-send {
+  0% { opacity: 0; transform: translateY(16px) scale(0.72) rotate(-8deg); }
+  55% { opacity: 1; transform: translateY(-5px) scale(1.08) rotate(3deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+
+@keyframes contact-trigger-in {
+  from { opacity: 0; transform: translateY(5px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-modal-sent,
+  .contact-sent-envelope,
+  .contact-trigger-content { animation: none !important; }
+}
+
 @media (max-width: 640px) {
   .contact-modal { padding: 28px 20px; border-radius: 20px; }
   .contact-form-row { grid-template-columns: 1fr; }
