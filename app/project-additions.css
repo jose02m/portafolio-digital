@@ -75,9 +75,13 @@
   text-decoration: none;
 }
 
-.project-actions a.demo-action:hover {
+.project-actions a.demo-action:hover,
+.project-actions a.demo-action:focus-visible,
+.project-actions a.demo-action:active,
+.project-actions a.demo-action:visited {
   border-color: #245fcf;
-  background: #245fcf;
+  background: #245fcf !important;
+  color: #fff !important;
   transform: translateY(-1px);
 }
 
@@ -87,10 +91,13 @@
   color: #fff;
 }
 
-.featured .project-actions a.demo-action:hover {
+.featured .project-actions a.demo-action:hover,
+.featured .project-actions a.demo-action:focus-visible,
+.featured .project-actions a.demo-action:active,
+.featured .project-actions a.demo-action:visited {
   border-color: #245fcf;
   background: #245fcf !important;
-  color: #fff;
+  color: #fff !important;
 }
 
 .project-images {
@@ -137,10 +144,13 @@
   text-decoration: none;
 }
 
-.modal-project-links .modal-demo-action:hover {
+.modal-project-links .modal-demo-action:hover,
+.modal-project-links .modal-demo-action:focus-visible,
+.modal-project-links .modal-demo-action:active,
+.modal-project-links .modal-demo-action:visited {
   border-color: #245fcf;
-  background: #245fcf;
-  color: #fff;
+  background: #245fcf !important;
+  color: #fff !important;
 }
 
 .modal-repository-action {
@@ -244,7 +254,7 @@
 .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .contact-form label { display: grid; gap: 7px; color: var(--ink); font-size: 0.76rem; font-weight: 850; }
 .contact-form input,
-.contact-form textarea { width: 100%; border: 1px solid rgba(52, 120, 246, 0.18); border-radius: 12px; padding: 12px 14px; background: #fff; color: var(--ink); font: inherit; outline: none; resize: vertical; }
+.contact-form textarea { width: 100%; border: 1px solid rgba(52, 120, 246, 0.18); border-radius: 12px; padding: 12px 14px; background: #fff; color: var(--ink); font-family: inherit; font-size: 0.86rem; font-weight: 400; line-height: 1.5; outline: none; resize: vertical; }
 .contact-form input:focus,
 .contact-form textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(52, 120, 246, 0.1); }
 .attachment-field { padding: 14px; border: 1px dashed rgba(52, 120, 246, 0.28); border-radius: 13px; background: rgba(229, 239, 255, 0.44); }
