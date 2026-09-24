@@ -1,9 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { FaArrowRight, FaPaperclip, FaXmark } from "react-icons/fa6";
+import { FaArrowRight, FaEnvelope, FaPaperclip, FaXmark } from "react-icons/fa6";
 
 export const OPEN_CONTACT_EVENT = "portfolio:open-contact";
+export const CONTACT_SENT_EVENT = "portfolio:contact-sent";
 
 export default function ContactModal() {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,12 @@ export default function ContactModal() {
     return () => { document.body.style.overflow = previousOverflow; window.removeEventListener("keydown", closeOnEscape); };
   }, [open]);
 
+  useEffect(() => {
+    if (status !== "success") return;
+    const closeTimer = window.setTimeout(() => setOpen(false), 1500);
+    return () => window.clearTimeout(closeTimer);
+  }, [status]);
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
@@ -39,6 +46,7 @@ export default function ContactModal() {
       setStatus("success");
       setMessage(result.message || "Mensaje enviado correctamente.");
       form.reset();
+      window.dispatchEvent(new Event(CONTACT_SENT_EVENT));
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "No fue posible enviar el mensaje.");
@@ -47,7 +55,11 @@ export default function ContactModal() {
 
   if (!open) return null;
   return <div className="modal-backdrop contact-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) setOpen(false); }}>
-    <div ref={dialogRef} className="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+    <div ref={dialogRef} className={`contact-modal${status === "success" ? " contact-modal-sent" : ""}`} role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      {status === "success" ? <div className="contact-sent-visual" role="status" aria-live="polite">
+        <span className="contact-sent-envelope" aria-hidden="true"><FaEnvelope/></span>
+        <span className="sr-only">{message}</span>
+      </div> : <>
       <div className="modal-close-bar"><button className="modal-close" type="button" onClick={() => setOpen(false)} aria-label="Cerrar formulario"><FaXmark/></button></div>
       <p className="eyebrow">Conversemos</p>
       <h2 id="contact-modal-title">Cuéntame sobre tu proyecto.</h2>
@@ -61,6 +73,7 @@ export default function ContactModal() {
         {message && <p className={`contact-status ${status}`} role="status">{message}</p>}
         <button className="button contact-submit" type="submit" disabled={status === "sending"}>{status === "sending" ? "Enviando…" : <>Enviar mensaje <FaArrowRight/></>}</button>
       </form>
+      </>}
     </div>
   </div>;
 }
