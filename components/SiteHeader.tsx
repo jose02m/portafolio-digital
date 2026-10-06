@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FaCommentDots, FaRegCommentDots } from "react-icons/fa6";
 import ContactTrigger from "./ContactTrigger";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { id: "inicio", label: "Inicio" },
@@ -62,6 +63,9 @@ export default function SiteHeader() {
       {links.map(link => <a key={link.id} href={`#${link.id}`} className={active === link.id ? "active" : ""} aria-current={active === link.id ? "page" : undefined} onClick={() => setActive(link.id)}>{link.label}</a>)}
       <i className="nav-indicator" style={{ transform: `translateX(${indicatorX}px)` }} aria-hidden="true"/>
     </nav>
-    <ContactTrigger className="button button-outline header-cta"><span className="chat-icon" aria-hidden="true"><FaRegCommentDots className="chat-outline"/><FaCommentDots className="chat-filled"/></span>Hablemos</ContactTrigger>
+    <div className="header-actions">
+      <ThemeToggle />
+      <ContactTrigger className="button button-outline header-cta"><span className="chat-icon" aria-hidden="true"><FaRegCommentDots className="chat-outline"/><FaCommentDots className="chat-filled"/></span>Hablemos</ContactTrigger>
+    </div>
   </header>;
 }
