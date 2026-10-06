@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { FaArrowRight, FaArrowUpRightFromSquare, FaCircleCheck, FaCodeBranch, FaRobot, FaXmark } from "react-icons/fa6";
+import { FaArrowRight, FaArrowUpRightFromSquare, FaChevronLeft, FaChevronRight, FaCircleCheck, FaCodeBranch, FaMagnifyingGlassPlus, FaMinus, FaPlus, FaRobot, FaXmark } from "react-icons/fa6";
 import { projects, type ProjectCategory } from "../data/portfolio";
 
 const categories = ["Todos", "Automatización", "Analítica y BI", "Desarrollo web"] as const;
@@ -15,7 +15,7 @@ function isFeaturedProject(project: Project): project is FeaturedProject { retur
 
 function ProjectVisual({ project }: { project: Project }) {
   const image = project.images?.[0];
-  if (image) return <div className="project-visual project-image-visual"><Image src={image.src} alt={image.alt} fill sizes="(max-width: 960px) 100vw, 40vw"/></div>;
+  if (image) return <div className={`project-visual project-image-visual${"imageFit" in project && project.imageFit === "contain" ? " contain" : ""}`}><Image src={image.src} alt={image.alt} fill sizes="(max-width: 960px) 100vw, 40vw"/></div>;
   return <div className={`project-visual ${project.category.toLowerCase().replaceAll(" ", "-")}`} aria-hidden="true"><div className="visual-nav"/><div className="visual-sidebar"/><div className="visual-card one"/><div className="visual-card two"/><div className="visual-chart"><i/><i/><i/><i/><i/></div></div>;
 }
 
@@ -60,8 +60,37 @@ function StandardCase({ project }: { project: DetailedProject }) {
   return <>{project.images ? <ProjectImages images={project.images}/> : null}<section className="solution-first"><span>Solución desarrollada</span><p>{project.solution}</p></section><div className="before-after"><article className="before-panel"><span>Antes</span><ul>{project.beforeItems.map(item => <li key={item}><FaXmark aria-hidden="true"/><span>{item}</span></li>)}</ul></article><div className="change-arrow" aria-hidden="true">→</div><article className="after-panel"><span>Después</span><div className="after-heading"><FaCircleCheck aria-hidden="true"/><h3>{project.afterTitle}</h3></div><p>{project.after}</p>{timedProject.beforeTime && timedProject.afterTime ? <div className="time-shift"><small>De {timedProject.beforeTime}</small><b>→</b><strong>{timedProject.afterTime}</strong></div> : project.outcome ? <div className="outcome-statement">{project.outcome}</div> : null}<p className="impact-line">{project.impact}</p></article></div>{project.features ? <section className="project-features"><span>Funcionalidades</span><div>{project.features.map(feature => <article key={feature}><FaCircleCheck aria-hidden="true"/><p>{feature}</p></article>)}</div></section> : null}<Participation project={project}/><Skills project={project}/><ProjectLinks project={project}/></>;
 }
 
-function ProjectImages({ images }: { images: NonNullable<Project["images"]> }) { return <section className="project-images" aria-label="Capturas del proyecto">{images.map((image, index) => <figure className={index === 0 ? "primary" : ""} key={image.src}><Image src={image.src} alt={image.alt} width={1280} height={615} sizes={index === 0 ? "(max-width: 960px) 100vw, 900px" : "(max-width: 640px) 100vw, 300px"}/></figure>)}</section>; }
+function ProjectImages({ images }: { images: NonNullable<Project["images"]> }) {
+  const [active, setActive] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    if (active === null) return;
+    const keydown = (event: KeyboardEvent) => {
+      event.stopImmediatePropagation();
+      if (event.key === "Escape") setActive(null);
+      if (event.key === "ArrowLeft") setActive(index => index === null ? null : (index - 1 + images.length) % images.length);
+      if (event.key === "ArrowRight") setActive(index => index === null ? null : (index + 1) % images.length);
+    };
+    window.addEventListener("keydown", keydown, true);
+    return () => window.removeEventListener("keydown", keydown, true);
+  }, [active, images.length]);
+
+  const openImage = (index: number) => { setActive(index); setZoom(1); };
+  const move = (step: number) => { setActive(index => index === null ? null : (index + step + images.length) % images.length); setZoom(1); };
+
+  return <>
+    <section className="project-images" aria-label="Capturas del proyecto">{images.map((image, index) => <button className={index === 0 ? "primary" : ""} type="button" key={image.src} onClick={() => openImage(index)} aria-label={`Ampliar captura ${index + 1}: ${image.alt}`}><Image src={image.src} alt={image.alt} width={1280} height={615} sizes={index === 0 ? "(max-width: 960px) 100vw, 900px" : "(max-width: 640px) 100vw, 300px"}/><span className="image-zoom-hint"><FaMagnifyingGlassPlus/> Ampliar</span></button>)}</section>
+    {active !== null && <div className="image-lightbox" role="dialog" aria-modal="true" aria-label={`Vista ampliada: ${images[active].alt}`} onMouseDown={event => { if (event.target === event.currentTarget) setActive(null); }}>
+      <div className="image-lightbox-toolbar"><span>{active + 1} / {images.length}</span><button type="button" onClick={() => setZoom(value => Math.max(1, value - 0.25))} disabled={zoom <= 1} aria-label="Reducir imagen"><FaMinus/></button><strong>{Math.round(zoom * 100)}%</strong><button type="button" onClick={() => setZoom(value => Math.min(2.5, value + 0.25))} disabled={zoom >= 2.5} aria-label="Ampliar imagen"><FaPlus/></button><button type="button" onClick={() => setActive(null)} aria-label="Cerrar imagen ampliada"><FaXmark/></button></div>
+      {images.length > 1 && <button className="image-lightbox-nav previous" type="button" onClick={() => move(-1)} aria-label="Captura anterior"><FaChevronLeft/></button>}
+      <div className="image-lightbox-stage"><Image src={images[active].src} alt={images[active].alt} width={1672} height={941} priority style={{ transform: `scale(${zoom})` }}/></div>
+      {images.length > 1 && <button className="image-lightbox-nav next" type="button" onClick={() => move(1)} aria-label="Captura siguiente"><FaChevronRight/></button>}
+      <p>{images[active].alt}</p>
+    </div>}
+  </>;
+}
 
 function Participation({ project }: { project: Project }) { return <section className="participation"><span>Mi participación</span><p>{project.participation}</p></section>; }
-function Skills({ project }: { project: Project }) { return <section className="skills-section"><span>Skills y tecnologías</span><div className="tech-tags">{project.technologies.map(technology => <span key={technology}>{technology}</span>)}</div></section>; }
+function Skills({ project }: { project: Project }) { const label = "technologyLabel" in project ? project.technologyLabel : "Skills y tecnologías"; return <section className="skills-section"><span>{label}</span><div className="tech-tags">{project.technologies.map(technology => <span key={technology}>{technology}</span>)}</div></section>; }
 function ProjectLinks({ project }: { project: Project }) { return <div className="modal-project-links">{project.url ? <a className="modal-demo-action" href={project.url} target="_blank" rel="noopener noreferrer">Ver demo <FaArrowUpRightFromSquare/></a> : <button className="modal-demo-action demo-disabled" type="button" disabled>Demo próximamente</button>}{project.repositoryUrl ? <a className="modal-repository-action" href={project.repositoryUrl} target="_blank" rel="noopener noreferrer"><FaCodeBranch/> Ver repositorio</a> : null}</div>; }
