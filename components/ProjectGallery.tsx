@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaArrowRight, FaArrowUpRightFromSquare, FaChevronLeft, FaChevronRight, FaCircleCheck, FaCodeBranch, FaMagnifyingGlassPlus, FaMinus, FaPlus, FaRobot, FaXmark } from "react-icons/fa6";
 import { projects, type ProjectCategory } from "../data/portfolio";
 
-const categories = ["Todos", "Automatización", "Analítica y BI", "Desarrollo web"] as const;
+const categories = ["Todos", "Proyecto destacado", "Automatización", "Analítica y BI", "Desarrollo web"] as const;
 type Project = (typeof projects)[number];
 type FeaturedProject = Project & Required<Pick<Project, "overview" | "agents" | "ecosystemBefore" | "ecosystemAfter" | "continuity">>;
 type StandardProject = Project & Required<Pick<Project, "solution" | "beforeItems" | "afterTitle" | "after" | "beforeTime" | "afterTime" | "impact">>;
@@ -26,7 +26,7 @@ function EcosystemVisual() {
 export default function ProjectGallery() {
   const [filter, setFilter] = useState<(typeof categories)[number]>("Todos");
   const [selected, setSelected] = useState<Project | null>(null);
-  const visible = useMemo(() => filter === "Todos" ? projects : projects.filter(project => project.categories?.includes(filter as ProjectCategory) || (!project.categories && project.category === filter)), [filter]);
+  const visible = useMemo(() => {\n    if (filter === "Todos") return projects;\n    if (filter === "Proyecto destacado") return projects.filter(project => project.featured);\n    return projects.filter(project => project.categories?.includes(filter as ProjectCategory) || (!project.categories && project.category === filter));\n  }, [filter]);
 
   useEffect(() => {
     if (!selected) return;
@@ -40,8 +40,8 @@ export default function ProjectGallery() {
     <p className="eyebrow">Proyectos seleccionados</p>
     <div className="section-heading"><h2>Soluciones con impacto medible.</h2><p>Cada proyecto parte de una necesidad real y termina en una mejora que puede comprenderse.</p></div>
     <div className="filters" aria-label="Filtrar proyectos">{categories.map(category => <button key={category} className={filter === category ? "active" : ""} onClick={() => setFilter(category)} aria-pressed={filter === category}>{category}</button>)}</div>
-    <div className="project-grid">{visible.map(project => <article className={project.featured ? "project-card featured" : "project-card"} key={project.title} data-reveal="up">
-      {project.featured ? <EcosystemVisual/> : <ProjectVisual project={project}/>}<div className="project-content">{project.featured && <p className="project-label">Proyecto destacado</p>}<p className="project-category">{project.disciplines}</p><h3>{project.title}</h3><p>{project.description}</p><small>{project.result}</small><div className="project-actions"><button className="info-action" type="button" onClick={() => setSelected(project)} aria-label={`Ver detalles de ${project.title}`}><span>{project.featured ? "Ver caso de estudio" : "Ver detalles"}</span><FaArrowRight/></button>{project.url ? <a className="demo-action" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${project.title} en una pestaña nueva`}><span>Ver demo</span><FaArrowUpRightFromSquare/></a> : <button type="button" className="demo-action demo-disabled" disabled aria-label={`Demo de ${project.title} próximamente`}><span>Demo próximamente</span></button>}</div></div>
+    <div className="project-grid">{visible.map(project => <article className="project-card" key={project.title} data-reveal="up">
+      {project.featured ? <EcosystemVisual/> : <ProjectVisual project={project}/>}<div className="project-content">{project.featured && <p className="project-label">Proyecto destacado</p>}<p className="project-category">{project.disciplines}</p><h3>{project.title}</h3><p>{project.description}</p><div className="project-actions"><button className="info-action" type="button" onClick={() => setSelected(project)} aria-label={`Ver caso de ${project.title}`}><span>Ver caso</span><FaArrowRight/></button>{project.url ? <a className="demo-action" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir demo de ${project.title} en una pestaña nueva`}><span>Ver demo</span><FaArrowUpRightFromSquare/></a> : <span className="demo-status" aria-label={`Demo de ${project.title} próximamente`}>Demo próximamente</span>}</div></div>
     </article>)}</div>
     {selected && <ProjectModal project={selected} close={() => setSelected(null)}/>} 
   </section>;
