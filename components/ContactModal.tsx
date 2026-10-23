@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { FaArrowRight, FaEnvelope, FaPaperclip, FaXmark } from "react-icons/fa6";
+import { FaEnvelope, FaFileLines, FaMessage, FaPaperPlane, FaPaperclip, FaUser, FaXmark } from "react-icons/fa6";
 
 export const OPEN_CONTACT_EVENT = "portfolio:open-contact";
 export const CONTACT_SENT_EVENT = "portfolio:contact-sent";
@@ -62,16 +62,19 @@ export default function ContactModal() {
       </div> : <>
       <div className="modal-close-bar"><button className="modal-close" type="button" onClick={() => setOpen(false)} aria-label="Cerrar formulario"><FaXmark/></button></div>
       <p className="eyebrow">Conversemos</p>
-      <h2 id="contact-modal-title">Cuéntame sobre tu proyecto.</h2>
+      <h2 id="contact-modal-title">Cuéntame sobre <span>tu proyecto</span></h2>
       <p className="contact-intro">Déjame el contexto esencial. Tu mensaje llegará directamente a mi bandeja y tu correo se usará únicamente para responderte.</p>
       <form className="contact-form" onSubmit={submit}>
-        <div className="contact-form-row"><label>Nombre<input name="name" type="text" autoComplete="name" maxLength={80} required placeholder="¿Cómo te llamas?"/></label><label>Tu correo<input name="email" type="email" autoComplete="email" maxLength={160} required placeholder="nombre@empresa.com"/></label></div>
-        <label>Asunto<input name="subject" type="text" maxLength={140} required placeholder="Ej. Automatización de un proceso"/></label>
-        <label>¿En qué puedo ayudarte?<textarea name="body" rows={6} maxLength={4000} required placeholder="Describe el reto, el resultado que buscas y cualquier plazo importante."/></label>
+        <div className="contact-form-row">
+          <label><span className="contact-field-label"><FaUser/> Nombre</span><span className="contact-control"><FaUser aria-hidden="true"/><input name="name" type="text" autoComplete="name" maxLength={80} required placeholder="¿Cómo te llamas?"/></span></label>
+          <label><span className="contact-field-label"><FaEnvelope/> Tu correo</span><span className="contact-control"><FaEnvelope aria-hidden="true"/><input name="email" type="email" autoComplete="email" maxLength={160} required placeholder="nombre@empresa.com"/></span></label>
+        </div>
+        <label><span className="contact-field-label"><FaFileLines/> Asunto</span><span className="contact-control"><FaFileLines aria-hidden="true"/><input name="subject" type="text" maxLength={140} required placeholder="Ej. Automatización de un proceso"/></span></label>
+        <label><span className="contact-field-label"><FaMessage/> ¿En qué puedo ayudarte?</span><span className="contact-control contact-control-textarea"><FaMessage aria-hidden="true"/><textarea name="body" rows={6} maxLength={4000} required placeholder="Describe el reto, el resultado que buscas y cualquier plazo importante."/></span></label>
         <label className="attachment-field"><span><FaPaperclip/> Adjuntar archivos <small>Opcional · PDF, Word o imagen · máximo 3 archivos / 5 MB</small></span><input name="attachments" type="file" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"/></label>
         <input className="contact-honeypot" name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true"/>
         {message && <p className={`contact-status ${status}`} role="status">{message}</p>}
-        <button className="button contact-submit" type="submit" disabled={status === "sending"}>{status === "sending" ? "Enviando…" : <>Enviar mensaje <FaArrowRight/></>}</button>
+        <button className="button contact-submit" type="submit" disabled={status === "sending"}>{status === "sending" ? "Enviando…" : <>Enviar mensaje <FaPaperPlane/></>}</button>
       </form>
       </>}
     </div>
