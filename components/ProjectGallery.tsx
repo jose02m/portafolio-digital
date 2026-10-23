@@ -26,7 +26,11 @@ function EcosystemVisual() {
 export default function ProjectGallery() {
   const [filter, setFilter] = useState<(typeof categories)[number]>("Todos");
   const [selected, setSelected] = useState<Project | null>(null);
-  const visible = useMemo(() => {\n    if (filter === "Todos") return projects;\n    if (filter === "Proyecto destacado") return projects.filter(project => project.featured);\n    return projects.filter(project => project.categories?.includes(filter as ProjectCategory) || (!project.categories && project.category === filter));\n  }, [filter]);
+  const visible = useMemo(() => {
+    if (filter === "Todos") return projects;
+    if (filter === "Proyecto destacado") return projects.filter(project => project.featured);
+    return projects.filter(project => project.categories?.includes(filter as ProjectCategory) || (!project.categories && project.category === filter));
+  }, [filter]);
 
   useEffect(() => {
     if (!selected) return;
