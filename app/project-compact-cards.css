@@ -1,0 +1,138 @@
+.project-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.project-card,
+.project-card.featured {
+  grid-column: auto;
+  display: flex;
+  min-width: 0;
+  padding: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(52, 120, 246, 0.09);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgba(42, 85, 150, 0.08);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(52, 120, 246, 0.2);
+  box-shadow: 0 20px 42px rgba(42, 85, 150, 0.13);
+}
+
+.project-card .project-visual,
+.project-card.featured .project-visual {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px rgba(24, 84, 199, 0.06);
+}
+
+.project-card .project-image-visual img {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card:hover .project-image-visual img {
+  transform: scale(1.025);
+}
+
+.project-card .project-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px;
+}
+
+.project-card .project-label {
+  width: max-content;
+  margin: 0 0 9px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(255, 138, 91, 0.13);
+  color: #a94723;
+  font-size: 0.59rem;
+  letter-spacing: 0.1em;
+}
+
+.project-card .project-category,
+.project-card.featured .project-category {
+  display: -webkit-box;
+  min-height: 32px;
+  margin: 0 0 7px;
+  overflow: hidden;
+  color: var(--blue);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.project-card h3,
+.project-card.featured h3 {
+  margin: 0 0 9px;
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.project-card .project-content > p:not(.project-label):not(.project-category),
+.project-card.featured .project-content > p:not(.project-label):not(.project-category) {
+  display: -webkit-box;
+  min-height: 61px;
+  margin: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.79rem;
+  line-height: 1.62;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.project-card .project-actions {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 17px;
+}
+
+.project-card .project-actions .info-action,
+.project-card .project-actions .demo-action {
+  flex: 1 1 auto;
+}
+
+.project-card .demo-status {
+  display: inline-flex;
+  min-height: 38px;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  color: #8b94a3;
+  font-size: 0.68rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project-card,
+  .project-card.featured { grid-template-columns: none; }
+}
+
+@media (max-width: 640px) {
+  .project-grid { grid-template-columns: 1fr; gap: 16px; }
+  .project-card,
+  .project-card.featured { padding: 0; }
+  .project-card .project-content { padding: 17px; }
+  .project-card .project-actions { flex-direction: row; align-items: center; }
+  .project-card .project-actions button { width: auto; }
+}
